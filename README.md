@@ -1,5 +1,6 @@
 # Maze-generator
 Simple javascript/html-canvas maze generator
+
 [live version!](https://akah.github.io/maze-generator/)
 
 	Make the initial cell the current cell and mark it as visited
