@@ -10,9 +10,18 @@
 //  -never fills every square (always some small gaps)
 //    ^might be because of moving two squares at once, so can't just move one space
 
-var width = 5;//pixel size of each square
+var size = 500;//parseInt(window.innerWidth/2);
+var asdf = 50;
+var width = size/asdf;
 var array = [];
 var stack = [];
+var a = 0;
+
+var node = document.createElement("CANVAS");
+document.getElementById('maze').appendChild(node);
+node.setAttribute("width", size-width);
+node.setAttribute("height", size-width);
+node.setAttribute("style", "border:1px solid #000;");
 
 function square(y,x,colour) {
   this.i = y;
@@ -67,9 +76,9 @@ function neighbour(y,x){
 
 function draw(){
   //+1 to size as there is a 1 pixel border
-  for(i=0;i<(100+1);i++){
+  for(i=0;i<(asdf);i++){
     var temp = [];
-    for(j=0;j<(100+1);j++){
+    for(j=0;j<(asdf);j++){
       var squares = new square(i,j);
       temp.push(squares);
       squares.write();
@@ -79,6 +88,7 @@ function draw(){
 }
 
 function run(y,x){
+  a=a+1;
   var current = array[y][x];
   //while(current!==undefined){
     var rand = Math.floor(Math.random()*4);
@@ -95,7 +105,12 @@ function run(y,x){
         run(current.i,current.j);
         return 0;
       }else{
-        startEnd();
+        location.reload();
+        clearTimeout(loop);
+        if (typeof loop !== 'undefined') {
+          clearTimeout(loop);
+          return 0;
+        }
         return 0;
       }
     }
@@ -119,7 +134,7 @@ function run(y,x){
         array[y][x-1].isWall = true;
         array[y][x-1].write();
       }
-      //run(i,j);//only works on small maze due to "too much recursion"
+      //run(i,j);//function only works on small maze due to "too much recursion", so setTimeout function also used to finish the maze
       loop = setTimeout(function(){run(i,j,current)},1);
     }else{
       //run(y,x);
@@ -130,12 +145,10 @@ function run(y,x){
 }
 //repeats
 function startEnd(){
-  window.reload();
-  //var start = new square(50,50,"red");
-  //var end = new square(array.length-2,array.length-2,"green");
-  //start.write();
-  //end.write(); 
+  //return 0;
 }
 
 draw();
-run(50,50);
+run(0,0);
+var end = new square(array.length-2,array.length-2,"green");
+var start = new square(0,0,"red");
